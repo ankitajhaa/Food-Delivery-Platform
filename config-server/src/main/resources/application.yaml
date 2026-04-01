@@ -1,8 +1,6 @@
 spring:
   application:
     name: config-server
-  profiles:
-    active: native
   cloud:
     config:
       server:
@@ -10,11 +8,7 @@ spring:
           uri: file://${user.home}/Desktop/food-delivery/config-repo
           default-label: main
           force-pull: true
-          skip-ssl-validation: true
-          strict-host-key-checking: false
           clone-on-start: true
-        native:
-          search-locations: file:///config-repo
 
 
 server:
