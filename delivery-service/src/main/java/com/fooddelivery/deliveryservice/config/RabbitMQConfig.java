@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
     public static final String DELIVERY_EXCHANGE = "delivery.exchange";
-    public static final String RIDER_QUEUE = "delivery.queue";
+    public static final String RIDER_QUEUE = "rider.queue";
     public static final String DELIVERY_ROUTING_KEY = "delivery.created";
 
     @Bean public TopicExchange deliveryExchange() {

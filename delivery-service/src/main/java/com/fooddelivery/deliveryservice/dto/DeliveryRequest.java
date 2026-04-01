@@ -1,4 +1,6 @@
 package com.fooddelivery.deliveryservice.dto;
 
-public record DeliveryRequest() {
+import jakarta.validation.constraints.NotNull;
+
+public record DeliveryRequest(@NotNull Long orderId) {
 }

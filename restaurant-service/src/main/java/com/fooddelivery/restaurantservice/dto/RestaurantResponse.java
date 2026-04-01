@@ -1,4 +1,4 @@
 package com.fooddelivery.restaurantservice.dto;
 
-public record RestaurantResponse() {
+public record RestaurantResponse(Long id, String name) {
 }

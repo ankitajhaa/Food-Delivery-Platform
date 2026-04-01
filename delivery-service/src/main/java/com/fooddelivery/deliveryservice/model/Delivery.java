@@ -15,7 +15,7 @@ public class Delivery {
     private Long riderId;
 
     @Enumerated(EnumType.STRING)
-    public DeliveryStatus status;
+    private DeliveryStatus status;
 
     public Long getId() {
         return id;
