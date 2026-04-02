@@ -26,7 +26,7 @@ public class AnalyticsController {
         return ResponseEntity.ok(analyticsService.getAllMetrics());
     }
 
-    @GetMapping("/type")
+    @GetMapping("/{type}")
     public ResponseEntity<List<AnalyticsResponse>> getMetricsByType(@PathVariable String type) {
         return ResponseEntity.ok(analyticsService.getMetricsByType(type));
     }
