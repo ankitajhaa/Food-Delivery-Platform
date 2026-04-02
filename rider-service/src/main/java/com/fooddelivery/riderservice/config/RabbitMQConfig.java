@@ -1,5 +1,7 @@
 package com.fooddelivery.riderservice.config;
 
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -17,5 +19,10 @@ public class RabbitMQConfig {
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(messageConverter());
         return factory;
+    }
+
+    @Bean
+    public Queue riderQueue() {
+        return QueueBuilder.durable("rider.queue").build();
     }
 }
