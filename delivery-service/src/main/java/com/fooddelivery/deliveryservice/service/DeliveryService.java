@@ -1,7 +1,10 @@
 package com.fooddelivery.deliveryservice.service;
 
+import com.fooddelivery.deliveryservice.client.OrderClient;
+import com.fooddelivery.deliveryservice.client.OrderResponse;
 import com.fooddelivery.deliveryservice.client.RiderClient;
 import com.fooddelivery.deliveryservice.client.RiderResponse;
+import com.fooddelivery.deliveryservice.dto.DeliveryDetailsResponse;
 import com.fooddelivery.deliveryservice.dto.DeliveryRequest;
 import com.fooddelivery.deliveryservice.dto.DeliveryResponse;
 import com.fooddelivery.deliveryservice.mapper.DeliveryMapper;
@@ -25,10 +28,13 @@ public class DeliveryService {
 
     private final DeliveryEventPublisher eventPublisher;
 
-    public DeliveryService(DeliveryRepository deliveryRepository, RiderClient riderClient, DeliveryEventPublisher eventPublisher) {
+    private final OrderClient orderClient;
+
+    public DeliveryService(DeliveryRepository deliveryRepository, RiderClient riderClient, DeliveryEventPublisher eventPublisher, OrderClient orderClient) {
         this.deliveryRepository = deliveryRepository;
         this.riderClient = riderClient;
         this.eventPublisher = eventPublisher;
+        this.orderClient = orderClient;
     }
 
     public DeliveryResponse createDelivery(DeliveryRequest request) {
@@ -57,5 +63,32 @@ public class DeliveryService {
         Delivery delivery = deliveryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Delivery not found: " + id));
         return DeliveryMapper.toResponse(delivery);
+    }
+
+    public DeliveryDetailsResponse getDeliveryDetails(Long id) {
+        Delivery delivery = deliveryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Delivery not found: " + id));
+
+        DeliveryDetailsResponse details = new DeliveryDetailsResponse();
+        details.setDeliveryId(delivery.getId());
+        details.setDeliveryStatus(delivery.getStatus().name());
+        details.setOrderId(delivery.getOrderId());
+        details.setRiderId(delivery.getRiderId());
+
+        OrderResponse order = orderClient.getOrder(delivery.getOrderId());
+        if (order != null) {
+            details.setOrderStatus(order.getStatus());
+            details.setRestaurantId(order.getRestaurantId());
+        }
+
+        if (delivery.getRiderId() != null) {
+            RiderResponse rider = riderClient.getRider(delivery.getRiderId());
+            if (rider != null) {
+                details.setRiderName(rider.getName());
+                details.setRiderZone(rider.getZone());
+            }
+        }
+
+        return details;
     }
 }
