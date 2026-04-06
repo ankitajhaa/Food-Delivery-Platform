@@ -5,7 +5,6 @@ import com.fooddelivery.deliveryservice.dto.DeliveryRequest;
 import com.fooddelivery.deliveryservice.dto.DeliveryResponse;
 import com.fooddelivery.deliveryservice.service.DeliveryService;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Path;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderClientFallback {
+public class OrderClientFallback implements OrderClient {
 
     private static final Logger log = LoggerFactory.getLogger(OrderClientFallback.class);
 
