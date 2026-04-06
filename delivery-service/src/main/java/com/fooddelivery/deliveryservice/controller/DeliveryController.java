@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/deliveries")
 public class DeliveryController {
@@ -32,5 +34,10 @@ public class DeliveryController {
     @GetMapping("/{id}/details")
     public ResponseEntity<DeliveryDetailsResponse> getDeliveryDetails(@PathVariable Long id) {
         return ResponseEntity.ok(deliveryService.getDeliveryDetails(id));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<DeliveryResponse> updateDelivery(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        return ResponseEntity.ok(deliveryService.updateDelivery(id, body.get("status")));
     }
 }

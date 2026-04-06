@@ -7,6 +7,7 @@ import com.fooddelivery.orderservice.mapper.OrderMapper;
 import com.fooddelivery.orderservice.messaging.OrderCreatedEvent;
 import com.fooddelivery.orderservice.messaging.OrderEventPublisher;
 import com.fooddelivery.orderservice.model.Order;
+import com.fooddelivery.orderservice.model.OrderStatus;
 import com.fooddelivery.orderservice.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +40,12 @@ public class OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found: " + id));
         return OrderMapper.toResponse(order);
+    }
+
+    public OrderResponse updateOrder(Long id, String status) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found: " + id));
+        order.setStatus(OrderStatus.valueOf(status));
+        return OrderMapper.toResponse(orderRepository.save(order));
     }
 }

@@ -91,4 +91,11 @@ public class DeliveryService {
 
         return details;
     }
+
+    public DeliveryResponse updateDelivery(Long id, String status) {
+        Delivery delivery = deliveryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Delivery not found: " + id));
+        delivery.setStatus(DeliveryStatus.valueOf(status));
+        return DeliveryMapper.toResponse(deliveryRepository.save(delivery));
+    }
 }
