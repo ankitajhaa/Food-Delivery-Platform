@@ -12,6 +12,8 @@ public class DeliveryDetailsResponse {
 
     private Long restaurantId;
 
+    private String restaurantName;
+
     private Long riderId;
 
     private String riderName;
@@ -82,5 +84,13 @@ public class DeliveryDetailsResponse {
 
     public void setRiderZone(String riderZone) {
         this.riderZone = riderZone;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

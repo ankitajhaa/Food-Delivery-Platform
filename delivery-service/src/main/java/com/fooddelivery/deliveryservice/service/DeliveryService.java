@@ -1,9 +1,6 @@
 package com.fooddelivery.deliveryservice.service;
 
-import com.fooddelivery.deliveryservice.client.OrderClient;
-import com.fooddelivery.deliveryservice.client.OrderResponse;
-import com.fooddelivery.deliveryservice.client.RiderClient;
-import com.fooddelivery.deliveryservice.client.RiderResponse;
+import com.fooddelivery.deliveryservice.client.*;
 import com.fooddelivery.deliveryservice.dto.DeliveryDetailsResponse;
 import com.fooddelivery.deliveryservice.dto.DeliveryRequest;
 import com.fooddelivery.deliveryservice.dto.DeliveryResponse;
@@ -30,11 +27,14 @@ public class DeliveryService {
 
     private final OrderClient orderClient;
 
-    public DeliveryService(DeliveryRepository deliveryRepository, RiderClient riderClient, DeliveryEventPublisher eventPublisher, OrderClient orderClient) {
+    private final RestaurantClient restaurantClient;
+
+    public DeliveryService(DeliveryRepository deliveryRepository, RiderClient riderClient, DeliveryEventPublisher eventPublisher, OrderClient orderClient, RestaurantClient restaurantClient) {
         this.deliveryRepository = deliveryRepository;
         this.riderClient = riderClient;
         this.eventPublisher = eventPublisher;
         this.orderClient = orderClient;
+        this.restaurantClient = restaurantClient;
     }
 
     public DeliveryResponse createDelivery(DeliveryRequest request) {
@@ -79,6 +79,13 @@ public class DeliveryService {
         if (order != null) {
             details.setOrderStatus(order.getStatus());
             details.setRestaurantId(order.getRestaurantId());
+        }
+
+        if (details.getRestaurantId() != null) {
+            RestaurantResponse restaurant = restaurantClient.getRestaurant(details.getRestaurantId());
+            if (restaurant != null) {
+                details.setRestaurantName(restaurant.getName());
+            }
         }
 
         if (delivery.getRiderId() != null) {
