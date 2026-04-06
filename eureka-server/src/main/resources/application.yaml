@@ -6,7 +6,7 @@ spring:
     name: eureka-server
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://config-server:8888
       import-check:
         enabled: false
 
@@ -15,5 +15,4 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
   instance:
-    hostname: localhost
-    prefer-ip-address: false
+    prefer-ip-address: true

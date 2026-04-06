@@ -31,6 +31,7 @@ services:
   config-server:
     build: ./config-server
     container_name: config-server
+    restart: unless-stopped
     ports:
       - "8888:8888"
     volumes:
@@ -51,6 +52,7 @@ services:
   eureka-server:
     build: ./eureka-server
     container_name: eureka-server
+    restart: unless-stopped
     ports:
       - "8761:8761"
     depends_on:
@@ -65,6 +67,7 @@ services:
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
+    restart: unless-stopped
     ports:
       - "8080:8080"
     depends_on:
@@ -77,68 +80,98 @@ services:
   order-service:
     build: ./order-service
     container_name: order-service
+    restart: unless-stopped
     ports:
       - "8081:8081"
     depends_on:
       eureka-server:
         condition: service_healthy
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/order_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
 
   restaurant-service-1:
     build: ./restaurant-service
     container_name: restaurant-service-1
+    restart: unless-stopped
     ports:
       - "8082:8082"
     depends_on:
       eureka-server:
         condition: service_healthy
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/restaurant_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
 
   restaurant-service-2:
     build: ./restaurant-service
     container_name: restaurant-service-2
+    restart: unless-stopped
     ports:
-      - "8086:8086"                          # ✅ fixed
+      - "8086:8086"
     depends_on:
       eureka-server:
         condition: service_healthy
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/restaurant_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SERVER_PORT: 8086
 
   delivery-service:
     build: ./delivery-service
     container_name: delivery-service
+    restart: unless-stopped
     ports:
       - "8083:8083"
     depends_on:
       eureka-server:
         condition: service_healthy
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/delivery_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
 
   rider-service:
     build: ./rider-service
     container_name: rider-service
+    restart: unless-stopped
     ports:
       - "8084:8084"
     depends_on:
       eureka-server:
         condition: service_healthy
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/rider_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
 
   analytics-service:
     build: ./analytics-service
     container_name: analytics-service
+    restart: unless-stopped
     ports:
       - "8085:8085"
     depends_on:
       eureka-server:
         condition: service_healthy
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/analytics_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
 
 volumes:
