@@ -1,6 +1,5 @@
-package com.fooddelivery.deliveryservice;
+package com.fooddelivery.deliveryservice.client;
 
-import com.fooddelivery.deliveryservice.client.RestaurantClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

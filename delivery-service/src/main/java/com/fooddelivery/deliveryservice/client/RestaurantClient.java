@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "restaurant-service", fallback = RestaurantClientFallback.class)
-public class RestaurantClient {
+public interface RestaurantClient {
 
     @GetMapping("/restaurants/{id}")
     RestaurantResponse getRestaurant(@PathVariable Long id);
