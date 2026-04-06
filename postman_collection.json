@@ -1,0 +1,165 @@
+{
+  "info": {
+    "name": "Food Delivery Platform",
+    "description": "API collection for the Food Delivery microservices platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "gateway", "value": "http://localhost:8080" },
+    { "key": "order_url", "value": "http://localhost:8081" },
+    { "key": "restaurant_url", "value": "http://localhost:8082" },
+    { "key": "delivery_url", "value": "http://localhost:8083" },
+    { "key": "rider_url", "value": "http://localhost:8084" },
+    { "key": "analytics_url", "value": "http://localhost:8085" }
+  ],
+  "item": [
+    {
+      "name": "Order Service",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{order_url}}/orders", "host": ["{{order_url}}"], "path": ["orders"] },
+            "body": { "mode": "raw", "raw": "{\n  \"restaurantId\": 1\n}" }
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{order_url}}/orders/1", "host": ["{{order_url}}"], "path": ["orders", "1"] }
+          }
+        },
+        {
+          "name": "[Gateway] Create Order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{gateway}}/orders", "host": ["{{gateway}}"], "path": ["orders"] },
+            "body": { "mode": "raw", "raw": "{\n  \"restaurantId\": 1\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Restaurant Service",
+      "item": [
+        {
+          "name": "Get Restaurant by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{restaurant_url}}/restaurants/1", "host": ["{{restaurant_url}}"], "path": ["restaurants", "1"] }
+          }
+        },
+        {
+          "name": "Get Instance Info (Load Balancing)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{gateway}}/restaurants/instance-info", "host": ["{{gateway}}"], "path": ["restaurants", "instance-info"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delivery Service",
+      "item": [
+        {
+          "name": "Create Delivery",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{delivery_url}}/deliveries", "host": ["{{delivery_url}}"], "path": ["deliveries"] },
+            "body": { "mode": "raw", "raw": "{\n  \"orderId\": 1\n}" }
+          }
+        },
+        {
+          "name": "Get Delivery by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{delivery_url}}/deliveries/1", "host": ["{{delivery_url}}"], "path": ["deliveries", "1"] }
+          }
+        },
+        {
+          "name": "Get Delivery Details (API Composition)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{delivery_url}}/deliveries/1/details", "host": ["{{delivery_url}}"], "path": ["deliveries", "1", "details"] }
+          }
+        },
+        {
+          "name": "Simulate CB Failure",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{delivery_url}}/deliveries/simulate-failure", "host": ["{{delivery_url}}"], "path": ["deliveries", "simulate-failure"] }
+          }
+        },
+        {
+          "name": "Simulate CB Recovery",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{delivery_url}}/deliveries/simulate-recovery", "host": ["{{delivery_url}}"], "path": ["deliveries", "simulate-recovery"] }
+          }
+        },
+        {
+          "name": "Circuit Breaker Status",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{delivery_url}}/deliveries/circuit-breaker/status", "host": ["{{delivery_url}}"], "path": ["deliveries", "circuit-breaker", "status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rider Service",
+      "item": [
+        {
+          "name": "Get Rider by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{rider_url}}/riders/1", "host": ["{{rider_url}}"], "path": ["riders", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics Service",
+      "item": [
+        {
+          "name": "Get All Metrics",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{analytics_url}}/analytics", "host": ["{{analytics_url}}"], "path": ["analytics"] }
+          }
+        },
+        {
+          "name": "Get Metrics by Type",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{analytics_url}}/analytics/ORDER_CREATED", "host": ["{{analytics_url}}"], "path": ["analytics", "ORDER_CREATED"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Infrastructure",
+      "item": [
+        {
+          "name": "Config Server - Order Service Config",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8888/order-service/default", "raw": "http://localhost:8888/order-service/default" }
+          }
+        },
+        {
+          "name": "Gateway Fallback",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{gateway}}/fallback", "host": ["{{gateway}}"], "path": ["fallback"] }
+          }
+        }
+      ]
+    }
+  ]
+}
