@@ -12,6 +12,6 @@ public class RestaurantClientFallback implements RestaurantClient {
     @Override
     public RestaurantResponse getRestaurant(Long id) {
         log.warn("Restaurant-Service unavailable, fallback for restaurantId={}", id);
-        return null;
+        throw new RuntimeException("Restaurant service unavailable");
     }
 }

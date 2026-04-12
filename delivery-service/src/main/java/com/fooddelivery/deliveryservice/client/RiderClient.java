@@ -1,6 +1,5 @@
 package com.fooddelivery.deliveryservice.client;
 
-import com.fooddelivery.deliveryservice.client.RiderResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,4 +9,7 @@ public interface RiderClient {
 
     @GetMapping("/riders/{id}")
     RiderResponse getRider(@PathVariable Long id);
+
+    @GetMapping("/riders/available")
+    RiderResponse getFirstAvailableRider();
 }

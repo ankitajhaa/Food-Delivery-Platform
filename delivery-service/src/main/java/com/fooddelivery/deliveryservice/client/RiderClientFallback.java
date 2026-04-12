@@ -12,6 +12,12 @@ public class RiderClientFallback implements RiderClient {
     @Override
     public RiderResponse getRider(Long id) {
         log.warn("Rider-Service unavailable, using fallback for riderId={}", id);
-        return null;
+        throw new RuntimeException("Rider service unavailable");
+    }
+
+    @Override
+    public RiderResponse getFirstAvailableRider() {
+        log.warn("Rider-Service unavailable, fallback for getFirstAvailableRider");
+        throw new RuntimeException("Rider service unavailable");
     }
 }

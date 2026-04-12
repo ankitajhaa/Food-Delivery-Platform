@@ -22,4 +22,9 @@ public class RiderController {
     public ResponseEntity<RiderResponse> getRider(@PathVariable Long id) {
         return ResponseEntity.ok(riderService.getRider(id));
     }
+
+    @GetMapping("/available")
+    public ResponseEntity<RiderResponse> getFirstAvailableRider() {
+        return ResponseEntity.ok(riderService.getFirstAvailableRider());
+    }
 }

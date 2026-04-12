@@ -81,8 +81,6 @@ services:
     build: ./order-service
     container_name: order-service
     restart: unless-stopped
-    ports:
-      - "8081:8081"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -97,8 +95,6 @@ services:
     build: ./restaurant-service
     container_name: restaurant-service-1
     restart: unless-stopped
-    ports:
-      - "8082:8082"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -113,8 +109,6 @@ services:
     build: ./restaurant-service
     container_name: restaurant-service-2
     restart: unless-stopped
-    ports:
-      - "8086:8086"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -130,8 +124,6 @@ services:
     build: ./delivery-service
     container_name: delivery-service
     restart: unless-stopped
-    ports:
-      - "8083:8083"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -146,8 +138,6 @@ services:
     build: ./rider-service
     container_name: rider-service
     restart: unless-stopped
-    ports:
-      - "8084:8084"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -162,8 +152,6 @@ services:
     build: ./analytics-service
     container_name: analytics-service
     restart: unless-stopped
-    ports:
-      - "8085:8085"
     depends_on:
       eureka-server:
         condition: service_healthy

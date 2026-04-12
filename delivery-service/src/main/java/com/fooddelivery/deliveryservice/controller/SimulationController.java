@@ -26,11 +26,11 @@ public class SimulationController {
 
     @PostMapping("/simulate-failure")
     public ResponseEntity<Map<String, String>> simulateFailure() {
-        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("RiderClient#getRider(Long)");
+        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("RiderClient#getFirstAvailableRider()");
         cb.transitionToOpenState();
         log.warn("Circuit breaker manually forced OPEN");
         return ResponseEntity.ok(Map.of(
-                "circuitBreaker", "RiderClient#getRider(Long)",
+                "circuitBreaker", "RiderClient#getFirstAvailableRider()",
                 "state", cb.getState().name(),
                 "message", "Circuit breaker forced OPEN - rider-service calls will be rejected"
         ));
@@ -38,11 +38,11 @@ public class SimulationController {
 
     @PostMapping("/simulate-recovery")
     public ResponseEntity<Map<String, String>> simulateRecovery() {
-        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("RiderClient#getRider(Long)");
+        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("RiderClient#getFirstAvailableRider()");
         cb.transitionToClosedState();
         log.info("Circuit breaker manually reset to CLOSED");
         return ResponseEntity.ok(Map.of(
-                "circuitBreaker", "RiderClient#getRider(Long)",
+                "circuitBreaker", "RiderClient#getFirstAvailableRider()",
                 "state", cb.getState().name(),
                 "message", "Circuit breaker reset to CLOSED - rider-service calls will resume"
         ));
@@ -50,10 +50,10 @@ public class SimulationController {
 
     @GetMapping("/circuit-breaker/status")
     public ResponseEntity<Map<String, String>> getStatus() {
-        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("RiderClient#getRider(Long)");
+        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("RiderClient#getFirstAvailableRider()");
         CircuitBreaker.Metrics metrics = cb.getMetrics();
         return ResponseEntity.ok(Map.of(
-                "circuitBreaker", "RiderClient#getRider(Long)",
+                "circuitBreaker", "RiderClient#getFirstAvailableRider()",
                 "state", cb.getState().name(),
                 "failureRate", metrics.getFailureRate() + "%",
                 "bufferedCalls", String.valueOf(metrics.getNumberOfBufferedCalls())

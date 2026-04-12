@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import java.io.IOException;
 
 @Component
 public class DeliveryEventConsumer {
@@ -20,12 +21,11 @@ public class DeliveryEventConsumer {
     @RabbitListener(queues = "rider.queue")
     public void handleDeliveryCreated(DeliveryCreatedEvent event) {
         try {
-            log.info("Rider Service received DeliveryCreatedEvent: deliveryId = {}, orderId = {}", event.getDeliveryId(), event.getOrderId());
+            log.info("Rider Service received DeliveryCreatedEvent for deliveryId={}", event.getDeliveryId());
             riderService.assignRider(event.getDeliveryId());
-            log.info("Rider assigned to deliveryId = {}", event.getDeliveryId());
-        }
-        catch (Exception e) {
-            log.error("Failed to assign rider for deliveryId = {}: {}", event.getDeliveryId(), e.getMessage());
+            log.info("Rider assigned for deliveryId={}", event.getDeliveryId());
+        } catch (Exception e) {
+            log.error("Failed to assign rider for deliveryId={}: {}", event.getDeliveryId(), e.getMessage());
         }
     }
 }

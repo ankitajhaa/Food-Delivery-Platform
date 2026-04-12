@@ -14,6 +14,8 @@ public class Rider {
 
     private String zone;
 
+    private boolean available = true;
+
     public Long getId() {
         return id;
     }
@@ -36,5 +38,13 @@ public class Rider {
 
     public void setZone(String zone) {
         this.zone = zone;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }
